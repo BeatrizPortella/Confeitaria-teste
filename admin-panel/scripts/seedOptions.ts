@@ -6,7 +6,15 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-const options = [
+interface OptionItem {
+    type: string;
+    name: string;
+    price: number;
+    order: number;
+    meta?: any;
+}
+
+const options: OptionItem[] = [
     // TAMANHOS
     { type: 'TAMANHO', name: 'P - 12 fatias', price: 90.00, order: 1 },
     { type: 'TAMANHO', name: 'M - 18 fatias', price: 0, order: 2 }, // Sob consulta
@@ -50,14 +58,14 @@ const options = [
     // I'll execute a raw SQL command to update the check constraint.
 ];
 
-const extras = [
+const extras: OptionItem[] = [
     { type: 'ADICIONAL', name: 'Topo de bolo impresso', price: 25.00, order: 1 },
     { type: 'ADICIONAL', name: 'Topo de bolo nome simples', price: 18.00, order: 2 },
     { type: 'ADICIONAL', name: 'Topo de bolo 3D a partir de', price: 30.00, order: 3 },
 ];
 
 // Decorations (Standard) - I'll put them as ADICIONAL for now but with price 0
-const decorations = [
+const decorations: OptionItem[] = [
     { type: 'ADICIONAL', name: 'Espatulado', price: 0, order: 10 },
     { type: 'ADICIONAL', name: 'Drip Cake', price: 0, order: 11 },
     { type: 'ADICIONAL', name: 'Naked cake', price: 0, order: 12 },
@@ -89,10 +97,10 @@ async function seed() {
     // The schema has `meta jsonb DEFAULT '{}'`. I can use that!
     // Perfect. type = 'ADICIONAL', meta = { category: 'DECORACAO' } vs { category: 'EXTRA' }
 
-    const allOptions = [
+    const allOptions: OptionItem[] = [
         ...options,
-        ...extras.map(o => ({ ...o, meta: { category: 'EXTRA' } })),
-        ...decorations.map(o => ({ ...o, meta: { category: 'DECORACAO' } }))
+        ...extras.map(o => ({ ...o, meta: { category: 'EXTRA' } } as OptionItem)),
+        ...decorations.map(o => ({ ...o, meta: { category: 'DECORACAO' } } as OptionItem))
     ];
 
     for (const opt of allOptions) {
