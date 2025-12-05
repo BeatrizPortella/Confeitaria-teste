@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monte seu Bolo - Confeitaria</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Lato:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header style="text-align: center; padding: 40px 0; position: relative;">
+            <a href="index.html"
+                style="position: absolute; left: 0; top: 40px; color: var(--color-primary); font-weight: 600; font-size: 0.9rem;"><i
+                    class="fas fa-arrow-left"></i> Voltar para Home</a>
+            <img src="logo.png" alt="Renata Magela" class="logo-img" style="margin: 0 auto 20px auto;">
+            <h1>Monte seu Bolo</h1>
+            <p>Siga os passos para personalizar seu pedido</p>
+        </header>
+
+        <div class="wizard-container">
+            <!-- Progress Indicator -->
+            <div class="step-indicator">
+                <div class="step-dot active" data-step="1">1</div>
+                <div class="step-dot" data-step="2">2</div>
+                <div class="step-dot" data-step="3">3</div>
+                <div class="step-dot" data-step="4">4</div>
+                <div class="step-dot" data-step="5">5</div>
+                <div class="step-dot" data-step="6">6</div>
+            </div>
+
+            <form id="cakeForm">
+                <!-- STEP 1: Sizes -->
+                <div class="wizard-step active" id="step1">
+                    <div class="banner-header">
+                        <span class="banner-number">1</span>
+                        <div class="banner-text">
+                            <h2>Tamanhos maiores preços especiais</h2>
+                            <p>Escolha o tamanho ideal para sua festa</p>
+                        </div>
+                    </div>
+
+                    <div id="size-options-container">
+                        <!-- Options will be loaded dynamically -->
+                        <div class="loading-options">Carregando tamanhos...</div>
+                    </div>
+
+                    <div class="info-box">
+                        <h3>Não sabe qual tamanho escolher?</h3>
+                        <p>Em uma comemoração que terá docinhos o ideal é 100g de bolo por pessoa. Então nesse caso é só
+                            multiplicar. Por exemplo:</p>
+                        <p style="margin-top: 10px;">uma festa para 10 pessoas: 10x 100g de bolo: <span
+                                class="highlight">1kg de bolo</span></p>
+                        <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">
+                            <span class="highlight">Obs:</span> Nossos bolos são feitos com 3 camadas de massa e 2 de
+                            recheio. Tem em média 10cm de altura que pode variar conforme a decoração escolhida.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Dough -->
+                <div class="wizard-step" id="step2">
+                    <div class="banner-header">
+                        <span class="banner-number">2</span>
+                        <div class="banner-text">
+                            <h2>Agora vamos escolher a massa!</h2>
+                            <p>Qual você prefere?</p>
+                        </div>
+                    </div>
+
+                    <div class="options-grid" id="dough-options-container">
+                        <div class="loading-options">Carregando massas...</div>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Fillings -->
+                <div class="wizard-step" id="step3">
+                    <div class="banner-header">
+                        <span class="banner-number">3</span>
+                        <div class="banner-text">
+                            <h2>Escolha os Recheios</h2>
+                            <p>Selecione até 2 sabores deliciosos</p>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 20px;">Primeiro Recheio</h3>
+                    <div class="options-grid" id="filling1-options">
+                        <div class="loading-options">Carregando recheios...</div>
+                    </div>
+
+                    <h3 style="margin-top: 40px;">Segundo Recheio</h3>
+                    <div class="options-grid" id="filling2-options">
+                        <div class="loading-options">Carregando recheios...</div>
+                    </div>
+                </div>
+
+                <!-- STEP 4: Coverage -->
+                <div class="wizard-step" id="step4">
+                    <div class="banner-header">
+                        <span class="banner-number">4</span>
+                        <div class="banner-text">
+                            <h2>Agora falta você escolher a cobertura!</h2>
+                            <p>Qual você prefere?</p>
+                        </div>
+                    </div>
+
+                    <div class="options-grid" id="coverage-options-container">
+                        <div class="loading-options">Carregando coberturas...</div>
+                    </div>
+                </div>
+
+                <!-- STEP 5: Decoration -->
+                <div class="wizard-step" id="step5">
+                    <div class="banner-header">
+                        <span class="banner-number">5</span>
+                        <div class="banner-text">
+                            <h2>Finalmente! O toque final: A Decoração!</h2>
+                            <p>Como você prefere?</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <h3
+                            style="color: var(--color-primary); margin-bottom: 15px; border-bottom: 2px solid var(--color-primary-light); padding-bottom: 5px;">
+                            Opções de Decoração:</h3>
+                        <div class="options-grid" id="decoration-options-container">
+                            <div class="loading-options">Carregando decorações...</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <h3
+                            style="color: var(--color-primary); margin-bottom: 15px; border-bottom: 2px solid var(--color-primary-light); padding-bottom: 5px;">
+                            Adicionais:</h3>
+                        <div style="display: flex; flex-direction: column; gap: 10px;" id="extras-options-container">
+                            <div class="loading-options">Carregando adicionais...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 6: Finalize -->
+                <div class="wizard-step" id="step6">
+                    <div class="banner-header">
+                        <span class="banner-number">6</span>
+                        <div class="banner-text">
+                            <h2>Finalizar Pedido</h2>
+                            <p>Informe seus dados para contato</p>
+                        </div>
+                    </div>
+
+                    <div style="background: white; padding: 30px; border-radius: 20px;">
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">Seu Nome</label>
+                            <input type="text" id="customerName"
+                                style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px;"
+                                placeholder="Digite seu nome completo">
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">Observações
+                                (Opcional)</label>
+                            <textarea id="observations"
+                                style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; height: 100px;"
+                                placeholder="Alguma restrição ou detalhe extra?"></textarea>
+                        </div>
+
+                        <div id="orderSummary"
+                            style="background: var(--color-bg-alt); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                            <h4 style="margin-bottom: 10px;">Resumo do Pedido:</h4>
+                            <p><strong>Tamanho:</strong> <span id="summarySize">-</span></p>
+                            <p><strong>Massa:</strong> <span id="summaryDough">-</span></p>
+                            <p><strong>Recheio 1:</strong> <span id="summaryFilling1">-</span></p>
+                            <p><strong>Recheio 2:</strong> <span id="summaryFilling2">-</span></p>
+                            <p><strong>Cobertura:</strong> <span id="summaryCoverage">-</span></p>
+                            <p><strong>Decoração:</strong> <span id="summaryDecoration">-</span></p>
+                            <p id="summaryExtrasContainer" style="display: none;"><strong>Extras:</strong> <span
+                                    id="summaryExtras">-</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="wizard-nav">
+                    <button type="button" class="btn btn-prev" id="prevBtn" style="visibility: hidden;">Voltar</button>
+                    <button type="button" class="btn" id="nextBtn">Próximo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

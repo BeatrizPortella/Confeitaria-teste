@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renata Magela - Cake Design</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Lato:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="logo-container">
+                <img src="logo.png" alt="Renata Magela" class="logo-img">
+            </div>
+            <button class="mobile-menu-btn" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="nav-wrapper">
+                <nav class="nav-home">
+                    <a href="#bolos">Sugestões</a>
+                    <a href="#sobre">Sobre</a>
+                    <a href="#info">Informações Importantes</a>
+                </nav>
+                <a href="pedido.html" class="btn btn-secondary"
+                    style="padding: 10px 25px; font-size: 0.8rem;">Contato</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="hero-text">
+                <h1>Bolos de festa<br>feitos com amor.</h1>
+                <p class="hero-subtitle">Criações personalizadas com ingredientes selecionados.</p>
+
+                <div class="hero-buttons">
+                    <a href="pedido.html" class="btn-hero btn-primary">
+                        Monte seu bolo
+                    </a>
+                </div>
+            </div>
+            <!-- Image is now background, so container is removed -->
+        </div>
+        <!-- Wave Effect Removed via CSS display:none, but keeping structure if needed later or removing it now -->
+        <!-- <div class="hero-wave">...</div> -->
+    </section>
+
+    <!-- Features Bar (Icons below wave) -->
+    <section class="features-bar">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-heart"></i>
+                    <div>
+                        <h4>Feito com Amor</h4>
+                        <p>Caseiro e único</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-pencil-alt"></i>
+                    <div>
+                        <h4>Personalizado</h4>
+                        <p>Do seu jeito</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-separator">
+        <i class="fas fa-heart"></i>
+    </div>
+
+
+
+    <!-- Handcrafted Cakes -->
+    <!-- Suggestions Premium Section -->
+    <section class="suggestions-section" id="bolos">
+        <div class="container">
+            <div class="section-title">
+                <h2>Sugestões Premium</h2>
+                <p style="color: #888; font-size: 0.85rem; margin-bottom: 15px; line-height: 1.4;">3 camadas de
+                    bolo, 2 camadas de brigadeiro de nutella com castanhas</p>
+                <div class="product-price">R$ 110,00</div>
+            </div>
+
+            <!-- Kinder Bueno -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                    alt="Kinder Bueno" class="product-image">
+                <h3>Kinder Bueno</h3>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">12 fatias</p>
+                <p style="color: #888; font-size: 0.85rem; margin-bottom: 15px; line-height: 1.4;">3 camadas de
+                    bolo, 2 camadas duplas de brigadeiro de baunilha e brigadeiro de nutella com pedaços de Kinder
+                    Bueno</p>
+                <div class="product-price">R$ 115,00</div>
+            </div>
+
+            <!-- Ninho com Nutella -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1563729768-6af7c46d6eb1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                    alt="Ninho com Nutella" class="product-image">
+                <h3>Ninho com Nutella</h3>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">12 fatias</p>
+                <p style="color: #888; font-size: 0.85rem; margin-bottom: 15px; line-height: 1.4;">3 camadas de
+                    massa, 2 camadas de leite ninho com NUTELLA</p>
+                <div class="product-price">R$ 110,00</div>
+            </div>
+
+            <!-- Olho de Sogra -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                    alt="Olho de Sogra" class="product-image">
+                <h3>Olho de Sogra</h3>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">12 fatias</p>
+                <p style="color: #888; font-size: 0.85rem; margin-bottom: 15px; line-height: 1.4;">3 camadas de
+                    bolo, 2 camadas de beijinho com ameixas</p>
+                <div class="product-price">R$ 95,00</div>
+            </div>
+
+            <!-- Trufado dos Sonhos -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                    alt="Trufado dos Sonhos" class="product-image">
+                <h3>Trufado dos Sonhos</h3>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">12 fatias</p>
+                <p style="color: #888; font-size: 0.85rem; margin-bottom: 15px; line-height: 1.4;">3 camadas de bolo
+                    mistas, 1 camada de brigadeiro trufado de maracujá, 1 brigadeiro ao leite com 4 leites</p>
+                <div class="product-price">R$ 115,00</div>
+            </div>
+
+            <!-- Red Velvet -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1586788680434-30d32443d858?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                    alt="Red Velvet" class="product-image">
+                <h3>Red Velvet</h3>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 5px;">18 fatias</p>
+                <p style="color: #888; font-size: 0.85rem; margin-bottom: 15px; line-height: 1.4;">3 camadas de
+                    massa vermelha amanteigada, 2 camadas de brigadeiro de cream cheese</p>
+                <div class="product-price">R$ 150,00</div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <div class="section-separator">
+        <i class="fas fa-heart"></i>
+    </div>
+
+    <!-- About Me Section -->
+    <section class="about-section" id="sobre">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image-container">
+                    <img src="https://images.unsplash.com/photo-1556910103-1c02745a30bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                        alt="Renata Magela" class="about-img">
+                </div>
+                <div class="about-content">
+                    <h2>Sobre a Renata Magela</h2>
+                    <p class="about-text">
+                        Olá! Sou a Renata, apaixonada por transformar açúcar e afeto em memórias inesquecíveis.
+                        Minha jornada na confeitaria começou na cozinha da minha avó, onde aprendi que cada bolo conta
+                        uma história.
+                    </p>
+                    <p class="about-text">
+                        Hoje, dedico meus dias a criar bolos artesanais que não são apenas deliciosos, mas verdadeiras
+                        obras de arte
+                        personalizadas para celebrar os momentos mais especiais da sua vida. Utilizo apenas ingredientes
+                        selecionados
+                        e muito amor em cada etapa do processo.
+                    </p>
+                    <div class="about-signature">
+                        <p>Com carinho,</p>
+                        <h3>Renata Magela</h3>
+                    </div>
+                    <div class="about-cta-container">
+                        <a href="pedido.html" class="btn btn-primary">Monte seu bolo comigo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-separator">
+        <i class="fas fa-heart"></i>
+    </div>
+
+    <!-- Important Info Section -->
+    <section class="info-section" id="info">
+        <div class="container">
+            <div class="section-title">
+                <h2>Informações Importantes</h2>
+            </div>
+
+            <div class="info-grid">
+                <!-- Info Cards -->
+                <div class="info-card">
+                    <i class="fas fa-clock info-icon"></i>
+                    <p>Pedidos para bolos detalhados devem ser feitos com antecedência.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-wallet info-icon"></i>
+                    <p>O pagamento deverá ser realizado até o dia da retirada da encomenda.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-camera info-icon"></i>
+                    <p>Envie referências para personalização para que possamos criar o bolo dos seus sonhos.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-calendar-alt info-icon"></i>
+                    <p>Alterações de horário de retirada devem ser comunicadas previamente.</p>
+                </div>
+            </div>
+
+            <div class="payment-section">
+                <h3 class="payment-title">FORMAS DE PAGAMENTO</h3>
+
+                <div class="payment-grid">
+                    <div class="payment-card">
+                        <i class="fas fa-qrcode"></i>
+                        <h4>Pix</h4>
+                        <span>(5% de desconto)</span>
+                    </div>
+                    <div class="payment-card">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <h4>Dinheiro</h4>
+                    </div>
+                    <div class="payment-card">
+                        <i class="fas fa-university"></i>
+                        <h4>Transferência</h4>
+                        <span>(Banco Itaú)</span>
+                    </div>
+                    <div class="payment-card">
+                        <i class="far fa-credit-card"></i>
+                        <h4>Cartão</h4>
+                        <span>(acima de R$250)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Column 1: Brand -->
+                <div class="footer-col brand-col">
+                    <img src="logo.png" alt="Renata Magela" class="footer-logo-img">
+                    <p class="footer-tagline">Confeitaria artesanal feita com amor e os melhores ingredientes para
+                        adoçar seus momentos especiais.</p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="footer-col links-col">
+                    <h3>Navegação</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="pedido.html">Monte seu Bolo</a></li>
+                        <li><a href="pedido.html">Fazer Pedido</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Contact & Social -->
+                <div class="footer-col contact-col">
+                    <h3>Contato</h3>
+                    <ul class="footer-contact-list">
+                        <li><i class="fas fa-map-marker-alt"></i> Ilicinea, MG</li>
+                        <li><i class="fas fa-phone"></i> (35) 98474-4790</li>
+                    </ul>
+                    <div class="footer-social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-copyright">
+                <p>&copy; 2026 Renata Magela. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/5535984744790" class="floating-whatsapp" target="_blank"
+        aria-label="Fale conosco no WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
