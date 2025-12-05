@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Render Doughs
-        renderGridOptions(options, 'MASSA', 'dough-options-container', 'dough');
+        renderGridOptions(options.filter(o => o.type === 'MASSA'), 'MASSA', 'dough-options-container', 'dough');
 
         // Render Fillings (for both steps)
         renderGridOptions(options.filter(o => o.type === 'RECHEIO'), 'RECHEIO', 'filling1-options', 'filling1');
