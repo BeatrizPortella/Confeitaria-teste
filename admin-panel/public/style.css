@@ -1509,4 +1509,30 @@ textarea::placeholder {
         height: 50px;
         font-size: 25px;
     }
+
+    /* Promo Section Mobile */
+    .promo-container {
+        flex-direction: column;
+    }
+
+    .promo-text {
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .promo-image {
+        width: 100%;
+        height: 300px;
+    }
+
+    /* Grid Adjustments */
+    .options-grid,
+    .product-grid,
+    .suggestions-grid {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
 }
