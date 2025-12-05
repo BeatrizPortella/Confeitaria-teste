@@ -1,5 +1,4 @@
-import { redirect } from 'next/navigation';
-
 export default function Home() {
-  redirect('/index.html');
+  return <h1>Home Page - App Router is Working</h1>;
+  // redirect('/index.html');
 }
