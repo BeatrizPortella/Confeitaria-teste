@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+}
+
+enum OptionType {
+  RECHEIO
+  MASSA
+  COBERTURA
+  TAMANHO
+  ADICIONAL
+}
+
+enum OrderStatus {
+  NEW
+  IN_PROGRESS
+  READY
+  DELIVERED
+  CANCELLED
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  password_hash String
+  name          String
+  role          Role     @default(ADMIN)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Option {
+  id         String     @id @default(uuid())
+  type       OptionType
+  name       String
+  slug       String
+  price      Decimal    @default(0.00)
+  active     Boolean    @default(true)
+  order      Int        @default(0)
+  meta       Json?
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+
+  @@unique([type, slug])
+  @@map("options")
+}
+
+model Order {
+  id             String      @id @default(uuid())
+  customer_name  String
+  customer_phone String
+  items          Json
+  total          Decimal
+  status         OrderStatus @default(NEW)
+  assigned_to    String?
+  created_at     DateTime    @default(now())
+  updated_at     DateTime    @updatedAt
+
+  @@map("orders")
+}
