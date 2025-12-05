@@ -10,7 +10,7 @@ type Order = {
     customer_name: string;
     customer_phone: string;
     total: number;
-    status: 'NEW' | 'IN_PROGRESS' | 'READY' | 'DELIVERED' | 'CANCELLED';
+    status: 'NEW' | 'CONFIRMED' | 'IN_PROGRESS' | 'READY' | 'DELIVERED' | 'CANCELLED';
     created_at: string;
     items: {
         size: string;
@@ -26,6 +26,7 @@ type Order = {
 
 const STATUS_MAP = {
     NEW: { label: 'Novo', color: 'bg-blue-100 text-blue-800', icon: AlertCircle },
+    CONFIRMED: { label: 'Confirmado', color: 'bg-purple-100 text-purple-800', icon: CheckCircle },
     IN_PROGRESS: { label: 'Em Produção', color: 'bg-yellow-100 text-yellow-800', icon: Clock },
     READY: { label: 'Pronto', color: 'bg-green-100 text-green-800', icon: CheckCircle },
     DELIVERED: { label: 'Entregue', color: 'bg-gray-100 text-gray-800', icon: Truck },
@@ -89,6 +90,7 @@ export default function OrdersPage() {
                     >
                         <option value="ALL">Todos os Status</option>
                         <option value="NEW">Novos</option>
+                        <option value="CONFIRMED">Confirmados</option>
                         <option value="IN_PROGRESS">Em Produção</option>
                         <option value="READY">Prontos</option>
                         <option value="DELIVERED">Entregues</option>
