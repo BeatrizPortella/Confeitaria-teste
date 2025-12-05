@@ -147,51 +147,94 @@ export default function OptionsPage() {
                 </nav>
             </div>
 
-            {/* Table */}
-            <div className="overflow-hidden rounded-lg bg-white shadow">
+            {/* Content Switcher: Table/Cards */}
+            <div className="rounded-lg bg-white shadow">
                 {loading ? (
                     <div className="p-8 text-center text-gray-500">Carregando...</div>
                 ) : options.length === 0 ? (
                     <div className="p-8 text-center text-gray-500">Nenhuma opção encontrada.</div>
                 ) : (
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
-                            <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Nome</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Preço</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Status</th>
-                                <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200 bg-white">
+                    <>
+                        {/* Desktop Table */}
+                        <div className="hidden md:block overflow-x-auto">
+                            <table className="min-w-full divide-y divide-gray-200">
+                                <thead className="bg-gray-50">
+                                    <tr>
+                                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Nome</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Preço</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Status</th>
+                                        <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-200 bg-white">
+                                    {options.map((opt) => (
+                                        <tr key={opt.id}>
+                                            <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">{opt.name}</td>
+                                            <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                                                R$ {Number(opt.price).toFixed(2)}
+                                            </td>
+                                            <td className="whitespace-nowrap px-6 py-4">
+                                                <span
+                                                    className={clsx(
+                                                        'inline-flex rounded-full px-2 text-xs font-semibold leading-5',
+                                                        opt.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                                                    )}
+                                                >
+                                                    {opt.active ? 'Ativo' : 'Inativo'}
+                                                </span>
+                                            </td>
+                                            <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
+                                                <button onClick={() => openEdit(opt)} className="mr-4 text-indigo-600 hover:text-indigo-900">
+                                                    <Pencil className="h-5 w-5" />
+                                                </button>
+                                                <button onClick={() => handleDelete(opt.id)} className="text-red-600 hover:text-red-900">
+                                                    <Trash2 className="h-5 w-5" />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* Mobile Cards */}
+                        <div className="grid grid-cols-1 gap-4 p-4 md:hidden">
                             {options.map((opt) => (
-                                <tr key={opt.id}>
-                                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">{opt.name}</td>
-                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                                        R$ {Number(opt.price).toFixed(2)}
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-4">
+                                <div key={opt.id} className="flex flex-col justify-between rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <div>
+                                            <h3 className="text-lg font-semibold text-gray-900">{opt.name}</h3>
+                                            <p className="text-sm text-gray-500">R$ {Number(opt.price).toFixed(2)}</p>
+                                        </div>
                                         <span
                                             className={clsx(
-                                                'inline-flex rounded-full px-2 text-xs font-semibold leading-5',
+                                                'inline-flex rounded-full px-2 py-1 text-xs font-semibold leading-5',
                                                 opt.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                                             )}
                                         >
                                             {opt.active ? 'Ativo' : 'Inativo'}
                                         </span>
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
-                                        <button onClick={() => openEdit(opt)} className="mr-4 text-indigo-600 hover:text-indigo-900">
-                                            <Pencil className="h-5 w-5" />
+                                    </div>
+                                    <div className="mt-4 flex justify-end space-x-3 border-t pt-3">
+                                        <button
+                                            onClick={() => openEdit(opt)}
+                                            className="flex items-center rounded-md bg-indigo-50 px-3 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-100"
+                                        >
+                                            <Pencil className="mr-2 h-4 w-4" />
+                                            Editar
                                         </button>
-                                        <button onClick={() => handleDelete(opt.id)} className="text-red-600 hover:text-red-900">
-                                            <Trash2 className="h-5 w-5" />
+                                        <button
+                                            onClick={() => handleDelete(opt.id)}
+                                            className="flex items-center rounded-md bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100"
+                                        >
+                                            <Trash2 className="mr-2 h-4 w-4" />
+                                            Excluir
                                         </button>
-                                    </td>
-                                </tr>
+                                    </div>
+                                </div>
                             ))}
-                        </tbody>
-                    </table>
+                        </div>
+                    </>
                 )}
             </div>
 
