@@ -1,36 +1,50 @@
 'use client';
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
-import { DollarSign, ShoppingBag, TrendingUp, Users } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { DollarSign, ShoppingBag, TrendingUp } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
-// Mock data for initial visualization (will be replaced by API data)
-const data = [
-    { name: 'Seg', vendas: 4000, pedidos: 24 },
-    { name: 'Ter', vendas: 3000, pedidos: 18 },
-    { name: 'Qua', vendas: 2000, pedidos: 12 },
-    { name: 'Qui', vendas: 2780, pedidos: 15 },
-    { name: 'Sex', vendas: 1890, pedidos: 10 },
-    { name: 'Sáb', vendas: 2390, pedidos: 20 },
-    { name: 'Dom', vendas: 3490, pedidos: 22 },
-];
 
-const stats = [
-    { name: 'Faturamento Total', value: 'R$ 12.450,00', icon: DollarSign, change: '+12%', changeType: 'positive' },
-    { name: 'Pedidos Hoje', value: '24', icon: ShoppingBag, change: '+4%', changeType: 'positive' },
-    { name: 'Ticket Médio', value: 'R$ 145,00', icon: TrendingUp, change: '-2%', changeType: 'negative' },
-    { name: 'Novos Clientes', value: '12', icon: Users, change: '+8%', changeType: 'positive' },
-];
 
 export default function DashboardPage() {
+    const [data, setData] = useState<any[]>([]);
+    const [metrics, setMetrics] = useState({ revenue: 0, ordersToday: 0, averageTicket: 0 });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await fetch('/api/dashboard');
+                const json = await res.json();
+                if (json.metrics) setMetrics(json.metrics);
+                if (json.chart) setData(json.chart);
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const stats = [
+        { name: 'Faturamento Total (Confirmado)', value: `R$ ${metrics.revenue.toFixed(2)}`, icon: DollarSign, change: 'Confirmado', changeType: 'positive' },
+        { name: 'Pedidos Hoje', value: metrics.ordersToday.toString(), icon: ShoppingBag, change: 'Volume', changeType: 'neutral' },
+        { name: 'Ticket Médio', value: `R$ ${metrics.averageTicket.toFixed(2)}`, icon: TrendingUp, change: 'Média', changeType: 'positive' },
+        // { name: 'Novos Clientes', value: '12', icon: Users, change: '+8%', changeType: 'positive' },
+    ];
+
+    if (loading) return <div className="p-8 text-center text-gray-500">Carregando dashboard...</div>;
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
-                <div className="text-sm text-gray-500">Última atualização: Hoje, 14:30</div>
+                <div className="text-sm text-gray-500">Dados em tempo real</div>
             </div>
 
             {/* Stats Grid */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {stats.map((stat) => (
                     <div key={stat.name} className="rounded-xl bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
                         <div className="flex items-center justify-between">
@@ -43,10 +57,7 @@ export default function DashboardPage() {
                             </div>
                         </div>
                         <div className="mt-4 flex items-center text-sm">
-                            <span className={stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'}>
-                                {stat.change}
-                            </span>
-                            <span className="ml-2 text-gray-500">vs. mês passado</span>
+                            <span className="text-gray-500">{stat.change}</span>
                         </div>
                     </div>
                 ))}
@@ -56,37 +67,21 @@ export default function DashboardPage() {
             <div className="grid gap-6 lg:grid-cols-2">
                 {/* Revenue Chart */}
                 <div className="rounded-xl bg-white p-6 shadow-sm">
-                    <h3 className="mb-4 text-lg font-semibold text-gray-800">Faturamento Semanal</h3>
+                    <h3 className="mb-4 text-lg font-semibold text-gray-800">Faturamento e Pedidos (Semanal)</h3>
                     <div className="h-80">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={data}>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                                 <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                                <YAxis axisLine={false} tickLine={false} tickFormatter={(value) => `R$${value}`} />
+                                <YAxis yAxisId="left" orientation="left" stroke="#db2777" />
+                                <YAxis yAxisId="right" orientation="right" stroke="#8884d8" />
                                 <Tooltip
-                                    formatter={(value) => [`R$ ${value}`, 'Vendas']}
+                                    formatter={(value, name) => [name === 'vendas' ? `R$ ${value}` : value, name === 'vendas' ? 'Faturamento' : 'Pedidos']}
                                     contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                                 />
-                                <Bar dataKey="vendas" fill="#db2777" radius={[4, 4, 0, 0]} />
+                                <Bar yAxisId="left" dataKey="vendas" fill="#db2777" radius={[4, 4, 0, 0]} name="vendas" />
+                                <Bar yAxisId="right" dataKey="pedidos" fill="#ddd" radius={[4, 4, 0, 0]} name="pedidos" />
                             </BarChart>
-                        </ResponsiveContainer>
-                    </div>
-                </div>
-
-                {/* Orders Chart */}
-                <div className="rounded-xl bg-white p-6 shadow-sm">
-                    <h3 className="mb-4 text-lg font-semibold text-gray-800">Pedidos por Dia</h3>
-                    <div className="h-80">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={data}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                                <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                                <YAxis axisLine={false} tickLine={false} />
-                                <Tooltip
-                                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                                />
-                                <Line type="monotone" dataKey="pedidos" stroke="#db2777" strokeWidth={3} dot={{ r: 4, fill: '#db2777', strokeWidth: 2, stroke: '#fff' }} />
-                            </LineChart>
                         </ResponsiveContainer>
                     </div>
                 </div>
