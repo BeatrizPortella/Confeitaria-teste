@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Eye, CheckCircle, XCircle, Clock, Truck, AlertCircle } from 'lucide-react';
+import { Eye, CheckCircle, XCircle, Clock, Truck, AlertCircle, Trash2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import toast from 'react-hot-toast';
 
@@ -59,6 +59,16 @@ export default function OrdersPage() {
     }, [filterStatus]);
 
     const updateStatus = async (id: string, newStatus: string) => {
+        // Optimistic Update
+        const previousOrders = [...orders];
+        const previousSelected = selectedOrder ? { ...selectedOrder } : null;
+
+        // Immediately update UI
+        setOrders(orders.map(o => o.id === id ? { ...o, status: newStatus as any } : o));
+        if (selectedOrder && selectedOrder.id === id) {
+            setSelectedOrder({ ...selectedOrder, status: newStatus as any });
+        }
+
         try {
             const res = await fetch('/api/orders', {
                 method: 'PUT',
@@ -69,12 +79,30 @@ export default function OrdersPage() {
             if (!res.ok) throw new Error('Falha ao atualizar');
 
             toast.success('Status atualizado!');
-            fetchOrders();
-            if (selectedOrder && selectedOrder.id === id) {
-                setSelectedOrder({ ...selectedOrder, status: newStatus as any });
-            }
+            // fetchOrders(); // Removed to avoid lag/flicker. Local update is sufficient if successful.
         } catch (error) {
+            // Revert on failure
+            setOrders(previousOrders);
+            if (previousSelected) setSelectedOrder(previousSelected);
             toast.error('Erro ao atualizar status');
+        }
+    };
+
+    const handleDelete = async (id: string) => {
+        if (!confirm('Tem certeza que deseja excluir este pedido?')) return;
+
+        // Optimistic Udpate
+        const previousOrders = [...orders];
+        setOrders(orders.filter(o => o.id !== id));
+        if (selectedOrder && selectedOrder.id === id) setSelectedOrder(null);
+
+        try {
+            const res = await fetch(`/api/orders?id=${id}`, { method: 'DELETE' });
+            if (!res.ok) throw new Error('Falha ao excluir');
+            toast.success('Pedido excluído');
+        } catch (error) {
+            setOrders(previousOrders);
+            toast.error('Erro ao excluir pedido');
         }
     };
 
@@ -143,9 +171,17 @@ export default function OrdersPage() {
                                         <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                                             <button
                                                 onClick={() => setSelectedOrder(order)}
-                                                className="text-pink-600 hover:text-pink-900"
+                                                className="mr-3 text-pink-600 hover:text-pink-900"
+                                                title="Ver Detalhes"
                                             >
                                                 <Eye className="h-5 w-5" />
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(order.id)}
+                                                className="text-red-400 hover:text-red-600"
+                                                title="Excluir Pedido"
+                                            >
+                                                <Trash2 className="h-5 w-5" />
                                             </button>
                                         </td>
                                     </tr>
@@ -182,15 +218,36 @@ export default function OrdersPage() {
                                 <div>
                                     <h3 className="text-sm font-medium text-gray-500">Status Atual</h3>
                                     <div className="mt-1 flex items-center space-x-2">
-                                        <select
-                                            value={selectedOrder.status}
-                                            onChange={(e) => updateStatus(selectedOrder.id, e.target.value)}
-                                            className="rounded-md border-gray-300 text-sm shadow-sm focus:border-pink-500 focus:ring-pink-500"
-                                        >
-                                            {Object.entries(STATUS_MAP).map(([key, config]) => (
-                                                <option key={key} value={key}>{config.label}</option>
-                                            ))}
-                                        </select>
+                                        <div className="relative w-full">
+                                            <select
+                                                value={selectedOrder.status}
+                                                onChange={(e) => updateStatus(selectedOrder.id, e.target.value)}
+                                                disabled={loading}
+                                                className={clsx(
+                                                    "block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-pink-500 focus:outline-none focus:ring-pink-500 sm:text-sm shadow-sm",
+                                                    STATUS_MAP[selectedOrder.status].color
+                                                )}
+                                                style={{ WebkitAppearance: 'none', MozAppearance: 'none' }} // Custom arrow below
+                                            >
+                                                {Object.entries(STATUS_MAP).map(([key, config]) => (
+                                                    <option key={key} value={key} className="bg-white text-gray-900">
+                                                        {config.label}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                                {loading ? (
+                                                    <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                    </svg>
+                                                ) : (
+                                                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                                    </svg>
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
