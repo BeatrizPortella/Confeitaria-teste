@@ -19,8 +19,9 @@
     --shadow-sm: 0 4px 6px rgba(74, 46, 42, 0.05);
     --shadow-md: 0 10px 30px rgba(74, 46, 42, 0.08);
 
-    --font-heading: 'Cormorant Garamond', serif;
-    --font-body: 'Lato', sans-serif;
+    --font-heading: Arial, Helvetica, sans-serif;
+    --font-body: Arial, Helvetica, sans-serif;
+    --font-sans: Arial, Helvetica, sans-serif;
 
     --spacing-sm: 16px;
     --spacing-md: 32px;
@@ -576,18 +577,29 @@ textarea::placeholder {
 /* Navigation */
 /* Navigation */
 /* Navigation */
+/* Navigation */
 .main-header {
-    padding: clamp(10px, 2vw, 30px) 0;
-    position: absolute;
+    padding: 10px 0;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 10;
+    z-index: 100;
     background: transparent;
+    /* Start transparent */
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.main-header.scrolled {
+    background: rgba(74, 46, 42, 0.95);
+    /* Solid dark brown on scroll */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .logo-img {
-    height: clamp(35px, 8vw, 150px);
+    height: 60px;
+    /* Fixed smaller height */
     width: auto;
     display: block;
 }
@@ -609,7 +621,8 @@ textarea::placeholder {
     font-weight: 500;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: var(--color-primary);
+    color: #FFFFFF;
+    /* White Text */
     position: relative;
     transition: color 0.3s ease;
 }
@@ -639,7 +652,8 @@ textarea::placeholder {
     background: none;
     border: none;
     font-size: 1.5rem;
-    color: var(--color-primary);
+    color: #FFFFFF;
+    /* White Icon */
     cursor: pointer;
     z-index: 20;
 }
@@ -690,16 +704,43 @@ textarea::placeholder {
 /* --- Hero Section (Modernized) --- */
 /* (Removed conflicting gradient hero styles) */
 
-.hero {
-    background-image: url('hero.png');
+/* Hero background wrapper for Ken Burns + Parallax */
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('hero.jpg');
     background-size: cover;
     background-position: center right;
     background-repeat: no-repeat;
+    z-index: -1;
+    will-change: transform;
+    animation: kenBurns 20s infinite alternate;
+}
+
+/* Ken Burns Keyframes */
+@keyframes kenBurns {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+.hero {
+    /* Background removed, now in .hero-bg */
     position: relative;
     width: 100%;
     min-height: 90vh;
     display: flex;
     align-items: center;
+    overflow: hidden;
+    /* Important to crop the scaling background */
+    /* Prevent background bleeding if scaled */
 }
 
 .hero-content {
@@ -727,16 +768,16 @@ textarea::placeholder {
     font-size: clamp(2.5rem, 5vw, 4rem);
     line-height: 1.1;
     margin-bottom: var(--spacing-sm);
-    color: #4A2E2A;
-    /* Dark Brown for contrast */
+    color: #FFFFFF;
+    /* White for contrast */
     font-weight: 700;
 }
 
 .hero-subtitle {
     font-family: var(--font-body);
     font-size: 1.2rem;
-    color: #6D4C47;
-    /* Slightly lighter brown */
+    color: #FFFFFF;
+    /* White */
     margin-bottom: var(--spacing-md);
     max-width: 450px;
     font-weight: 400;
@@ -957,7 +998,8 @@ textarea::placeholder {
 
 .about-cta-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    /* Left align on desktop */
     margin-top: 20px;
 }
 
@@ -974,6 +1016,11 @@ textarea::placeholder {
 
     .about-signature {
         margin-top: 30px;
+    }
+
+    .about-cta-container {
+        justify-content: center;
+        /* Center align on mobile */
     }
 }
 
@@ -1056,10 +1103,98 @@ textarea::placeholder {
     font-size: 1.1rem;
 }
 
-.suggestions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+/* Carousel Container for relative positioning of buttons */
+.carousel-container {
+    position: relative;
+    max-width: 100%;
+}
+
+.suggestions-carousel {
+    display: flex;
+    overflow-x: auto;
     gap: var(--spacing-md);
+    padding: 10px 5px 30px 5px;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+}
+
+/* Hide scrollbar for Chrome/Safari/Opera */
+.suggestions-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+/* Scroll buttons */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(74, 46, 42, 0.15);
+    color: var(--color-primary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-btn:hover {
+    background: var(--color-primary);
+    color: white;
+    box-shadow: 0 6px 20px rgba(74, 46, 42, 0.25);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev-btn {
+    left: -25px;
+}
+
+.next-btn {
+    right: -25px;
+}
+
+@media (max-width: 768px) {
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .prev-btn {
+        left: -10px;
+    }
+
+    .next-btn {
+        right: -10px;
+    }
+}
+
+.suggestions-carousel .product-card {
+    min-width: 320px;
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    /* Ensure card styling persists in flex context */
+}
+
+/* Hide grid as we are using carousel now */
+.suggestions-grid {
+    display: none;
 }
 
 .cake-card {
