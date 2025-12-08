@@ -1311,7 +1311,7 @@ textarea::placeholder {
 
 /* Limited Time Promo */
 .promo-section {
-    background-color: #fce4e8;
+    background-color: #f9f3f4;
     /* Light Pink */
     padding: 0;
     overflow: hidden;
@@ -1339,8 +1339,9 @@ textarea::placeholder {
 /* --- Important Info Section --- */
 .info-section {
     padding: var(--spacing-lg) 0;
-    background-color: var(--color-bg-alt);
-    /* Pink to alternate with Suggestions (White) */
+    background-color: #FFFFFF;
+    /* White */
+    /* Pink to alternate with Suggestions (White) - CHANGED to White */
 }
 
 .info-grid {
@@ -1590,7 +1591,11 @@ textarea::placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 40px 0;
+    /* Removed margin: 40px 0; */
+    padding: 30px 0;
+    /* Use padding to keep spacing but colored */
+    background-color: #FFFFFF;
+    /* Match adjacent section (Pink) - CHANGED to White */
     color: var(--color-primary-light);
 }
 
@@ -1602,11 +1607,15 @@ textarea::placeholder {
     background-color: var(--color-accent);
     max-width: 200px;
     margin: 0 20px;
+    display: none;
+    /* Hide Lines */
 }
 
 .section-separator i {
     font-size: 1.5rem;
     color: var(--color-accent);
+    display: none;
+    /* Hide Icon */
 }
 
 /* Floating WhatsApp Button */
